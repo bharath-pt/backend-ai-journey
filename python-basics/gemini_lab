@@ -1,0 +1,30 @@
+import google.generativeai as genai
+
+genai.configure(api_key='API_KEY')
+
+model = genai.GenerativeModel('gemini-2.5-flash')
+
+response = model.generate_content('how do I clean dirty data?')
+print(response.text)
+
+try:
+    response = model.generate_content('What is a RAG?')
+    print(response.text)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+chat = model.start_chat()
+print(chat.send_message('what is AI?').text)
+print(chat.send_message('what is ML?').text)
+
+response = model.generate_content(
+    'what is the future of AI?',
+     genai_config = genai.GenerateContentConfig(
+         temperature=0.2,
+         top_p=1.0,
+         top_k=32,
+         candidate_count=1,
+         max_output_tokens=2048,
+        )
+)
+print(response.text)
